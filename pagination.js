@@ -42,11 +42,6 @@ export const pagination = (res, currentPage) => {
 };
 
 const pageChanged = (pageNumber) => {
-  renderHtml(
-    data.slice(
-      pageNumber * itemsPerPage,
-      pageNumber * itemsPerPage + itemsPerPage
-    )
-  );
+  renderHtml(data.slice(pageNumber * itemsPerPage, pageNumber * itemsPerPage + itemsPerPage));
   clearDetails();
 };

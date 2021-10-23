@@ -16,8 +16,7 @@ export const renderHtml = (res) => {
     };
     const correctDate = date.toLocaleDateString("en-US", options);
 
-    const currImg =
-      imgUrl + article.multimedia.find((x) => x.subtype === "thumbnail")?.url;
+    const currImg = imgUrl + article.multimedia.find((x) => x.subtype === "thumbnail")?.url;
 
     element.innerHTML = `
     <div class="card mb-3">
@@ -40,7 +39,7 @@ export const renderHtml = (res) => {
         <button id='${article.id}' class="btn px-3 mr-5 mt-1 btn btn-outline-info">test</button>
         </div>
       </div>
-      <div id="${article.id}" class="test-x g-0">x</div> 
+      <div id="article-${article.id}" class="test-x g-0">x</div> 
     </div>
    `;
 
@@ -58,7 +57,7 @@ const detailedInformation = (article) => {
   clearDetails();
 
   const detailedElement = document.createElement("div");
-  const testX = document.querySelector(".test-x");
+  const testX = document.querySelector(`#article-${article.id}`);
   testX.appendChild(detailedElement);
 
   detailedElement.classList = "detailed";

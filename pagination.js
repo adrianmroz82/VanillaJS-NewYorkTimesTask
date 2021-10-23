@@ -1,5 +1,4 @@
-import { renderHtml } from "./renderHtml.js";
-import { clearDetails } from "./renderHtml.js";
+import { renderHtml, clearDetails } from "./renderHtml.js";
 
 let data = [];
 const itemsPerPage = 10;
@@ -7,15 +6,18 @@ const itemsPerPage = 10;
 export const pagination = (res, currentPage) => {
   data = res;
 
-  const totalItems = [res.length];
+  const totalItems = res.length;
 
   let pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage - 1); i++) {
+    if (currentPage > 3) {
+      currentPage.innerHTML = "...";
+    }
     pageNumbers.push(i);
   }
 
   pageNumbers.map((number) => {
-    const pagination = document.getElementById("pagination");
+    const pagination = document.querySelector(".pagination");
     const paginateElement = document.createElement("div");
     paginateElement.classList = "pagination-container";
 
@@ -39,7 +41,12 @@ export const pagination = (res, currentPage) => {
   pageChanged(currentPage);
 };
 
-const pageChanged = (no) => {
-  renderHtml(data.slice(no * itemsPerPage, no * itemsPerPage + itemsPerPage));
+const pageChanged = (pageNumber) => {
+  renderHtml(
+    data.slice(
+      pageNumber * itemsPerPage,
+      pageNumber * itemsPerPage + itemsPerPage
+    )
+  );
   clearDetails();
 };

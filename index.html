@@ -13,21 +13,20 @@
       crossorigin="anonymous"
     />
   </head>
-  <h1 id="header">New York Times Top Stories</h1>
-    <p id="pagination"></p>
-    <div  id="parent-container">
-        <div class="container ">
-          <div class="row row-cols-md-5 g-3 gy-5 align-items-stretch">
-          </div>
-        </div>
+  <header> 
+    <h1 class="page-title">New York Times Top Stories</h1>
+  </header>
+    <p class="pagination"></p>
+    <div id="parent-container">
+      <div class="container">
+        <div class="row"></div>
+      </div>
     </div>
     <div id="page-container">
       <footer class="text-muted py-5">
           <p id="footer" class="mt-5 mb-0"></p>
       </footer>
     </div>
-    <script type="module" src="/fetchData.js"></script>
-    <script type="module" src="/renderHtml.js"></script>
-    <script type="module" src="/pagination.js"></script>
+    <script type="module" src="fetchData.js"></script>
   </body>
 </html>

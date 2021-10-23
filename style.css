@@ -5,14 +5,20 @@
   align-items: center;
   text-align: center;
   padding: 0;
+  margin: 0;
 }
+
+/* #pagination,
+.page-title {
+
+} */
 
 @font-face {
   font-family: newYorkFont;
   src: url(assets/Chomsky.woff);
 }
 
-#header {
+.page-title {
   font-family: newYorkFont;
   font-size: 2.7rem;
   border-bottom: 1px solid rgb(13, 202, 240);
@@ -21,22 +27,27 @@
   padding-top: 0.8rem;
 }
 
-.description,
 .date,
 .byline,
-.section,
-a,
 .btn {
   font-family: "Spinnaker", sans-serif;
   font-size: 1.1rem;
   margin-top: 1rem;
 }
 
-/* .render-html {
-  border-bottom: 1px solid black;
-  margin: 0 5vw 0 5vw;
-} */
-
 .pagination-container {
   display: inline-block;
+}
+
+.card {
+  align-items: stretch;
+}
+
+.title-link {
+  color: black;
+}
+
+.row,
+.parent-container {
+  display: inline-flex;
 }

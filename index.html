@@ -15,21 +15,21 @@
     />
   </head>
   <header> 
-    <h1 class="page-title">New York Times Top Stories</h1>
+    <h1 class="page-title">New York Times News</h1>
+    <div class="current-page"></div>
   </header>
-  <!-- <li class="page-item previous no"><a onclick="a()">Previous</a></li> -->
-    <div class="pagination"></div>
+    <ul class="pagination"></ul>
     <div id="parent-container">
       <div class="container">
-        <div class="row"></div>
+        <div id="news-cards" class="row">
+        </div>
       </div>
     </div>
     <div id="page-container">
       <footer class="text-muted py-5">
-          <p id="footer" class="mt-5 mb-0"></p>
+          <p id="footer" class="mt-2 mb-0"></p>
       </footer>
     </div>
-    <!-- <script src="./pagination2.js"></script> -->
     <script type="module" src="./fetchData.js"></script>
   </body>
 </html>

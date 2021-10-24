@@ -1,11 +1,12 @@
-const imgUrl = "https://static01.nyt.com/";
 export const renderHtml = (res) => {
-  const parentContainer = document.querySelector(".row");
+  const parentContainer = document.querySelector("#news-cards");
   parentContainer.innerHTML = "";
 
   res.forEach((article, i) => {
+    // console.log(article);
     article.id = i + 1;
     const element = document.createElement("div");
+
     element.classList = "w-75";
     const date = new Date(article.pub_date);
     const options = {
@@ -16,15 +17,16 @@ export const renderHtml = (res) => {
     };
     const correctDate = date.toLocaleDateString("en-US", options);
 
-    const currImg = imgUrl + article.multimedia.find((x) => x.subtype === "thumbnail")?.url;
+    const imgUrl = "https://static01.nyt.com/";
+    const smallImg = imgUrl + article.multimedia.find((img) => img.subtype === "thumbnail")?.url;
 
     element.innerHTML = `
     <div class="card mb-3">
       <div class="row g-0">
         <div class="col-md-2 mx-auto d-block">
-          <img src='${currImg}' class="rounded-start" alt='${article.multimedia[1]?.type}'>  
+          <img src='${smallImg}' class="rounded-start" alt='${article.multimedia[1]?.type}'>  
         </div>
-        <div class="col-md-6">
+        <div class="col-md-8">
           <div class="card-body">
           <a target="_blank" class="title-link" href="${article.web_url}">
             <h5 class="card-title">${article.headline.main}</h5>
@@ -36,10 +38,10 @@ export const renderHtml = (res) => {
           </div>
         </div>
         <div class="here col-md-2 mx-auto d-block">
-        <button id='${article.id}' class="btn px-3 mr-5 mt-1 btn btn-outline-info">test</button>
+        <button id='${article.id}' class="btn px-3 mr-5 mt-1 btn btn-outline-info">See more</button>
         </div>
       </div>
-      <div id="article-${article.id}" class="test-x g-0">x</div> 
+      <div id="article-${article.id}"></div> 
     </div>
    `;
 
@@ -53,30 +55,36 @@ export const renderHtml = (res) => {
 };
 
 const detailedInformation = (article) => {
-  console.log(article.id);
+  const imgUrl = "https://static01.nyt.com/";
+  const largeImg = imgUrl + article.multimedia.find((x) => x.subtype === "jumbo")?.url;
+
   clearDetails();
 
   const detailedElement = document.createElement("div");
   const testX = document.querySelector(`#article-${article.id}`);
   testX.appendChild(detailedElement);
 
+  if (article.byline.original === null) {
+    article.byline.original = "";
+  }
+
   detailedElement.classList = "detailed";
   detailedElement.innerHTML = `
   <div class="card mt-1 bg-white text-black">
-    <img class="card-img" src='${article.multimedia[0].url}' alt='${article.multimedia[0].type}'>
-    <p class="card-text fs-2">Published on section ${article.section}</p> 
-    <p class="card-text mb-0 pb-1 fs-4">${article.byline}</p> 
-    <a class="mb-1 fs-5" href="#">Go back to top</a> 
+    <img class="card-img" src='${largeImg}' alt='${article.multimedia[0].type}'>
+    <p class="card-text fs-2">Published on section ${article.section_name}</p> 
+    <p class="card-text fs-3">${article.byline.original}</p> 
+    <a class="mb-1 fs-5" href="#">Go back to top</a>
   </div>`;
 
   setTimeout(() => {
     detailedElement.scrollIntoView(false);
-  }, 200);
+  }, 500);
 };
 
 const clearDetails = () => {
   const detailedElements = document.querySelectorAll(".detailed");
-  const arr = [].slice.call(detailedElements);
+  const arr = [...detailedElements];
   arr.forEach((x) => {
     x.innerHTML = "";
     x.parentElement.removeChild(x);

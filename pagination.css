@@ -1,13 +1,7 @@
 a:hover {
   cursor: pointer;
 }
-.pagination {
-  display: flex;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
+
 ul {
   list-style: none;
   padding: 0;
@@ -15,22 +9,18 @@ ul {
   display: flex;
 }
 ul li {
-  color: #fff;
+  color: #0d6efdff;
   display: flex;
 }
 ul li a {
-  background-color: #444b6e;
+  background-color: #ffffff;
   padding: 5px 10px;
-  border: 2px solid #3d315b;
+  border: 1px solid #dee2e6;
   border-right: 0;
 }
 ul li.active a {
-  background-color: #9ab87a;
+  background-color: #a0b87a;
 }
 ul li:first-child a {
   border-radius: 5px 0 0 5px;
-}
-ul li:last-child a {
-  border-radius: 0 5px 5px 0;
-  border-right: 2px solid #3d315b;
 }

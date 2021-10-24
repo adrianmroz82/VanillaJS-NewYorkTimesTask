@@ -12,10 +12,20 @@ export const fetchData = (page) => {
     .then((response) => response.json())
     .then((res) => {
       let data = res.response.docs;
-      console.log(data);
       renderHtml(data);
-      // createPagination(10, 5);
+      const footer = document.getElementById("footer");
+      footer.innerHTML = res.copyright;
     });
+
+  displayRange(page);
 };
-// fetchData();
+
+export const displayRange = (page) => {
+  let from = 10 * (page - 1) + 1;
+  let to = page * 10;
+
+  const currentPage = document.querySelector(".current-page");
+  currentPage.innerHTML = `Displaying news ${from} - ${to} of 100`;
+};
+
 createPagination(10, 5);

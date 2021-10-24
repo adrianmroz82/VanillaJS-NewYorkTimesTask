@@ -1,115 +1,97 @@
-// document.querySelector(".pagination").innerHTML = createPagination(10, 1);
 import { fetchData } from "./fetchData.js";
 let pagesCount = 10;
 
 function createPagination(pages, page) {
-  let str = "<ul>";
-  let active;
-  let pageCutLow = page - 1;
-  let pageCutHigh = page + 1;
-  // Show the Previous button only if you are on a page other than the first
-  if (page > 1) {
-    str += '<li class="page-item previous no"><a id="previous">Previous</a></li>';
-  }
-  // Show all the pagination elements if there are less than 6 pages total
-  if (pages < 6) {
-    for (let p = 1; p <= pages; p++) {
-      active = page == p ? "active" : "no";
-      str +=
-        '<li class="' +
-        active +
-        '"><a onclick="createPagination(pages, ' +
-        p +
-        ')">' +
-        p +
-        "</a></li>";
-    }
-  }
-  // Use "..." to collapse pages outside of a certain range
-  else {
-    // Show the very first page followed by a "..." at the beginning of the
-    // pagination section (after the Previous button)
-    if (page > 2) {
-      str += '<li class="no page-item"><a onclick="createPagination(pages, 1)">1</a></li>';
-      if (page > 3) {
-        str +=
-          '<li class="out-of-range"><a onclick="createPagination(pages,' +
-          (page - 2) +
-          ')">...</a></li>';
-      }
-    }
-    // Determine how many pages to show after the current page index
-    if (page === 1) {
-      pageCutHigh += 2;
-    } else if (page === 2) {
-      pageCutHigh += 1;
-    }
-    // Determine how many pages to show before the current page index
-    if (page === pages) {
-      pageCutLow -= 2;
-    } else if (page === pages - 1) {
-      pageCutLow -= 1;
-    }
-    // Output the indexes for pages that fall inside the range of pageCutLow
-    // and pageCutHigh
-    for (let p = pageCutLow; p <= pageCutHigh; p++) {
-      if (p === 0) {
-        p += 1;
-      }
-      if (p > pages) {
-        continue;
-      }
-      active = page == p ? "active" : "no";
-      str +=
-        '<li class="page-item ' +
-        active +
-        '"><a onclick="createPagination(pages, ' +
-        p +
-        ')">' +
-        p +
-        "</a></li>";
-    }
-    // Show the very last page preceded by a "..." at the end of the pagination
-    // section (before the Next button)
-    if (page < pages - 1) {
-      if (page < pages - 2) {
-        str +=
-          '<li class="out-of-range"><a onclick="createPagination(pages,' +
-          (page + 2) +
-          ')">...</a></li>';
-      }
-      str +=
-        '<li class="page-item no"><a onclick="createPagination(pages, pages)">' +
-        pages +
-        "</a></li>";
-    }
-  }
-  // Show the Next button only if you are on a page other than the last
-  if (page < pages) {
-    str += '<li class="page-item next no"><a id="next">Next</a></li>';
-  }
-  str += "</ul>";
-  // Return the pagination string to be outputted in the pug templates
-  document.querySelector(".pagination").innerHTML = str;
+  let list = "<ul>";
 
-  //   console.log(str);
+  let active;
+  let pageDown = page - 1;
+  let pageUp = page + 1;
+  if (page > 1) {
+    list += `
+    <li class="page-item">
+    <a id="previous" class="page-link" href="#" aria-label="Previous">
+      <span aria-hidden="true">&laquo;</span>
+      <span class="sr-only"></span>
+    </a>
+  </li>`;
+  }
+
+  if (page > 2) {
+    list += '<li class="no page-item"><a id="first-page">1</a></li>';
+    if (page > 3) {
+      list += '<li class="out-of-range"><a id="dots-after-first">...</a></li>';
+    }
+  }
+  if (page === 1) {
+    pageUp += 2;
+  } else if (page === 2) {
+    pageUp += 1;
+  }
+  if (page === pages) {
+    pageDown -= 2;
+  } else if (page === pages - 1) {
+    pageDown -= 1;
+  }
+
+  for (let p = pageDown; p <= pageUp; p++) {
+    if (p === 0) {
+      p += 1;
+    }
+    if (p > pages) {
+      continue;
+    }
+    active = page == p ? "active" : "no";
+    list += '<li class="page-item ' + active + `"><a id="page-${p}">` + p + "</a></li>";
+  }
+
+  if (page < pages - 1) {
+    if (page < pages - 2) {
+      list += '<li class="out-of-range"><a id="dots-before-last">...</a></li>';
+    }
+    list += '<li class="page-item no"><a id="last-page">' + pages + "</a></li>";
+  }
+
+  if (page < pages) {
+    list += `<li class="page-item">
+    <a id="next" class="page-link" href="#" aria-label="Next">
+      <span aria-hidden="true">&raquo;</span>
+      <span class="sr-only"></span>
+    </a>
+  </li>`;
+  }
+  list += "</ul>";
+  document.querySelector(".pagination").innerHTML = list;
 
   addEvents(page);
-  //   return str;
+  for (let p = pageDown; p <= pageUp; p++) {
+    document.getElementById(`page-${p}`)?.addEventListener("click", () => {
+      createPagination(pagesCount, p);
+    });
+  }
 
-  fetchData(page);
+  fetchData(page, pages);
 }
 
 const addEvents = (page) => {
-  document.getElementById("previous").addEventListener("click", () => {
+  document.getElementById("previous")?.addEventListener("click", () => {
     createPagination(pagesCount, page - 1);
   });
-  //   document.getElementById("previous").addEventListener("click", arrow(page - 1));
-  //   document.getElementById("next").addEventListener("click", arrow(page + 1));
+  document.getElementById("next")?.addEventListener("click", () => {
+    createPagination(pagesCount, page + 1);
+  });
+  document.getElementById("first-page")?.addEventListener("click", () => {
+    createPagination(pagesCount, 1);
+  });
+  document.getElementById("last-page")?.addEventListener("click", () => {
+    createPagination(pagesCount, pagesCount);
+  });
+  document.getElementById("dots-before-last")?.addEventListener("click", () => {
+    createPagination(pagesCount, page + 2);
+  });
+  document.getElementById("dots-after-first")?.addEventListener("click", () => {
+    createPagination(pagesCount, page - 2);
+  });
 };
-
-// const arrow = (page) => {
-//   createPagination(pagesCount, page);
-// };
 
 export { createPagination };

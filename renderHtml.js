@@ -24,7 +24,7 @@ export const renderHtml = (res) => {
     <div class="card mb-3">
       <div class="row g-0">
         <div class="col-md-2 mx-auto d-block">
-          <img src='${smallImg}' class="rounded-start" alt='${article.multimedia[1]?.type}'>  
+        <img id="image" src='${smallImg}' onerror="this.src='assets/images/newyorktimeslogo.png'"/>
         </div>
         <div class="col-md-8">
           <div class="card-body">
@@ -61,8 +61,8 @@ const detailedInformation = (article) => {
   clearDetails();
 
   const detailedElement = document.createElement("div");
-  const testX = document.querySelector(`#article-${article.id}`);
-  testX.appendChild(detailedElement);
+  const detailedSection = document.querySelector(`#article-${article.id}`);
+  detailedSection.appendChild(detailedElement);
 
   if (article.byline.original === null) {
     article.byline.original = "";
@@ -72,9 +72,9 @@ const detailedInformation = (article) => {
   detailedElement.innerHTML = `
   <div class="card mt-1 bg-white text-black">
     <img class="card-img" src='${largeImg}' alt='${article.multimedia[0].type}'>
-    <p class="card-text fs-2">Published on section ${article.section_name}</p> 
-    <p class="card-text fs-3">${article.byline.original}</p> 
-    <a class="mb-1 fs-5" href="#">Go back to top</a>
+    <div class="card-text mb-2 fs-4">Published on section ${article.section_name}</div> 
+    <div class="card-text mb-2 fs-4">${article.byline.original}</div> 
+    <a class="mb-2 fs-5" href="#">Go back to top</a>
   </div>`;
 
   setTimeout(() => {

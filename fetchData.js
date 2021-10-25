@@ -1,5 +1,5 @@
 import { renderHtml } from "./renderHtml.js";
-import { createPagination } from "./pagination2.js";
+import { createPagination } from "./pagination.js";
 
 const yourApiKey = "TqbXjcy6d60sNQ7GjZPsIguZVU91BrN5";
 const baseUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
@@ -21,11 +21,11 @@ export const fetchData = (page) => {
 };
 
 export const displayRange = (page) => {
-  let from = 10 * (page - 1) + 1;
-  let to = page * 10;
+  let firstItem = 10 * (page - 1) + 1;
+  let lastItem = page * 10;
 
   const currentPage = document.querySelector(".current-page");
-  currentPage.innerHTML = `Displaying news ${from} - ${to} of 100`;
+  currentPage.innerHTML = `Displaying news ${firstItem} - ${lastItem} of 100`;
 };
 
 createPagination(10, 5);

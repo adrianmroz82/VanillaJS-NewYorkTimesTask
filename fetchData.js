@@ -13,6 +13,7 @@ export const fetchData = (page) => {
     .then((res) => {
       let data = res.response.docs;
       renderHtml(data);
+
       const footer = document.getElementById("footer");
       footer.innerHTML = res.copyright;
     });
@@ -28,4 +29,4 @@ export const displayRange = (page) => {
   currentPage.innerHTML = `Displaying news ${firstItem} - ${lastItem} of 100`;
 };
 
-createPagination(10, 5);
+createPagination(10, 1);

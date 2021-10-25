@@ -16,7 +16,7 @@
 .page-title {
   font-family: newYorkFont;
   font-size: 2.7rem;
-  border-bottom: 1px solid rgb(13, 202, 240);
+  border-bottom: 1px solid #ffc107;
   margin: 1rem;
   padding-bottom: 0.8rem;
   padding-top: 0.8rem;
@@ -28,6 +28,7 @@
   font-family: "Spinnaker", sans-serif;
   font-size: 1.1rem;
   margin-top: 1rem;
+  margin-right: 1rem;
 }
 
 .pagination-container {
@@ -36,6 +37,7 @@
 
 .card {
   align-items: stretch;
+  border: 1px solid #ffc107;
 }
 
 .title-link {
@@ -45,4 +47,28 @@
 .row,
 .parent-container {
   display: inline-flex;
+}
+
+.pagination > li > a {
+  background-color: white;
+  color: #000;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover {
+  color: #5a5a5a;
+  background-color: #eee;
+  border-color: #ddd;
+  cursor: pointer;
+}
+
+.pagination > .active > a {
+  color: white;
+  background-color: #ffc107 !important;
+  border: solid 1px #ffc107 !important;
+}
+
+.pagination > .active > a:hover {
+  background-color: #ffc107 !important;
+  border: solid 1px #ffc107;
 }

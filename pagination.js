@@ -1,8 +1,8 @@
 import { fetchData } from "./fetchData.js";
 let pagesCount = 10;
 
-function createPagination(pages, page) {
-  let list = "<ul>";
+export const createPagination = (pages, page) => {
+  let list = "<ul class='pagination mb-2'>";
 
   let active;
   let pageDown = page - 1;
@@ -18,9 +18,9 @@ function createPagination(pages, page) {
   }
 
   if (page > 2) {
-    list += '<li class="no page-item"><a id="first-page">1</a></li>';
+    list += '<li class="page-item"><a id="first-page" class="page-link">1</a></li>';
     if (page > 3) {
-      list += '<li class="out-of-range"><a id="dots-after-first">...</a></li>';
+      list += '<li class="page-item"><a id="dots-after-first" class="page-link">...</a></li>';
     }
   }
   if (page === 1) {
@@ -34,22 +34,22 @@ function createPagination(pages, page) {
     pageDown -= 1;
   }
 
-  for (let p = pageDown; p <= pageUp; p++) {
-    if (p === 0) {
-      p += 1;
+  for (let i = pageDown; i <= pageUp; i++) {
+    if (i === 0) {
+      i += 1;
     }
-    if (p > pages) {
+    if (i > pages) {
       continue;
     }
-    active = page == p ? "active" : "no";
-    list += '<li class="page-item ' + active + `"><a id="page-${p}">` + p + "</a></li>";
+    active = page == i ? "active" : "no";
+    list += '<li class="page-item ' + active + `"><a id="page-${i}" class="page-link">` + i + "</a></li>";
   }
 
   if (page < pages - 1) {
     if (page < pages - 2) {
-      list += '<li class="out-of-range"><a id="dots-before-last">...</a></li>';
+      list += '<li class="page-item""><a id="dots-before-last" class="page-link">...</a></li>';
     }
-    list += '<li class="page-item no"><a id="last-page">' + pages + "</a></li>";
+    list += '<li class="page-item no"><a id="last-page" class="page-link">' + pages + "</a></li>";
   }
 
   if (page < pages) {
@@ -64,14 +64,14 @@ function createPagination(pages, page) {
   document.querySelector(".pagination").innerHTML = list;
 
   addEvents(page);
-  for (let p = pageDown; p <= pageUp; p++) {
-    document.getElementById(`page-${p}`)?.addEventListener("click", () => {
-      createPagination(pagesCount, p);
+  for (let i = pageDown; i <= pageUp; i++) {
+    document.getElementById(`page-${i}`)?.addEventListener("click", () => {
+      createPagination(pagesCount, i);
     });
   }
 
   fetchData(page, pages);
-}
+};
 
 const addEvents = (page) => {
   document.getElementById("previous")?.addEventListener("click", () => {
@@ -93,5 +93,3 @@ const addEvents = (page) => {
     createPagination(pagesCount, page - 2);
   });
 };
-
-export { createPagination };

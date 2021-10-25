@@ -1,9 +1,8 @@
 export const renderHtml = (res) => {
-  const parentContainer = document.querySelector("#news-cards");
+  const parentContainer = document.getElementById("news-cards");
   parentContainer.innerHTML = "";
 
   res.forEach((article, i) => {
-    // console.log(article);
     article.id = i + 1;
     const element = document.createElement("div");
 
@@ -15,16 +14,16 @@ export const renderHtml = (res) => {
       month: "long",
       day: "numeric",
     };
-    const correctDate = date.toLocaleDateString("en-US", options);
 
+    const correctDate = date.toLocaleDateString("en-US", options);
     const imgUrl = "https://static01.nyt.com/";
     const smallImg = imgUrl + article.multimedia.find((img) => img.subtype === "thumbnail")?.url;
 
     element.innerHTML = `
-    <div class="card mb-3">
+    <div class="card border-warning mb-3">
       <div class="row g-0">
         <div class="col-md-2 mx-auto d-block">
-        <img id="image" src='${smallImg}' onerror="this.src='assets/images/newyorktimeslogo.png'"/>
+        <img id="image" class="mt-1" src='${smallImg}' onerror="this.src='assets/images/newyorktimeslogo.png'" alt='${article.multimedia[0].type}'/>
         </div>
         <div class="col-md-8">
           <div class="card-body">
@@ -37,8 +36,8 @@ export const renderHtml = (res) => {
             </p>
           </div>
         </div>
-        <div class="here col-md-2 mx-auto d-block">
-        <button id='${article.id}' class="btn px-3 mr-5 mt-1 btn btn-outline-info">See more</button>
+        <div class="col-md-2">
+        <button id='${article.id}' class="btn px-3 mt-1 mb-1 btn btn-warning">See more</button>
         </div>
       </div>
       <div id="article-${article.id}"></div> 
@@ -61,7 +60,7 @@ const detailedInformation = (article) => {
   clearDetails();
 
   const detailedElement = document.createElement("div");
-  const detailedSection = document.querySelector(`#article-${article.id}`);
+  const detailedSection = document.getElementById(`article-${article.id}`);
   detailedSection.appendChild(detailedElement);
 
   if (article.byline.original === null) {
@@ -85,9 +84,10 @@ const detailedInformation = (article) => {
 const clearDetails = () => {
   const detailedElements = document.querySelectorAll(".detailed");
   const arr = [...detailedElements];
-  arr.forEach((x) => {
-    x.innerHTML = "";
-    x.parentElement.removeChild(x);
+
+  arr.forEach((el) => {
+    el.innerHTML = "";
+    el.parentElement.removeChild(el);
   });
 };
 

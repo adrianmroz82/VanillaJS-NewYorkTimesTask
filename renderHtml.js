@@ -3,11 +3,14 @@ export const renderHtml = (res) => {
   parentContainer.innerHTML = "";
 
   res.forEach((article, i) => {
+    const { pub_date, multimedia, web_url, headline, abstract } = article;
+
     article.id = i + 1;
+
     const element = document.createElement("div");
 
     element.classList = "w-75";
-    const date = new Date(article.pub_date);
+    const date = new Date(pub_date);
     const options = {
       weekday: "long",
       year: "numeric",
@@ -17,7 +20,7 @@ export const renderHtml = (res) => {
 
     const correctDate = date.toLocaleDateString("en-US", options);
     const imgUrl = "https://static01.nyt.com/";
-    const smallImg = imgUrl + article.multimedia.find((img) => img.subtype === "thumbnail")?.url;
+    const smallImg = imgUrl + multimedia.find((img) => img.subtype === "thumbnail")?.url;
 
     element.innerHTML = `
     <div class="card border-warning mb-3">
@@ -27,10 +30,10 @@ export const renderHtml = (res) => {
         </div>
         <div class="col-md-8">
           <div class="card-body">
-          <a target="_blank" class="title-link" href="${article.web_url}">
-            <h5 class="card-title">${article.headline.main}</h5>
+          <a target="_blank" class="title-link" href="${web_url}">
+            <h5 class="card-title">${headline.main}</h5>
           </a>
-            <p class="card-text">${article.abstract}</p>
+            <p class="card-text">${abstract}</p>
             <p class="card-text">
               <small class="text-muted">Pulished on ${correctDate}</small>
             </p>
@@ -53,7 +56,7 @@ export const renderHtml = (res) => {
   });
 };
 
-const detailedInformation = (article) => {
+const detailedInformation = (article, byline) => {
   const imgUrl = "https://static01.nyt.com/";
   const largeImg = imgUrl + article.multimedia.find((x) => x.subtype === "jumbo")?.url;
 

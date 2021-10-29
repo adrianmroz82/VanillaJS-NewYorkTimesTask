@@ -31,24 +31,6 @@
   margin-right: 1rem;
 }
 
-.pagination-container {
-  display: inline-block;
-}
-
-.card {
-  align-items: stretch;
-  border: 1px solid #ffc107;
-}
-
-.title-link {
-  color: black;
-}
-
-.row,
-.parent-container {
-  display: inline-flex;
-}
-
 .pagination > li > a {
   background-color: white;
   color: #000;

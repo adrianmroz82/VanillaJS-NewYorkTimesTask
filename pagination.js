@@ -1,8 +1,8 @@
 import { fetchData } from "./fetchData.js";
-let pagesCount = 10;
+const pagesCount = 10;
 
-export const createPagination = (pages, page) => {
-  let list = "<ul class='pagination mb-2'>";
+export const createPagination = (page) => {
+  let list = "";
 
   let active;
   let pageDown = page - 1;
@@ -10,7 +10,7 @@ export const createPagination = (pages, page) => {
   if (page > 1) {
     list += `
     <li class="page-item">
-    <a id="previous" class="page-link" href="#" aria-label="Previous">
+    <a id="previous" class="page-link event" href="#" aria-label="Previous">
       <span aria-hidden="true">&laquo;</span>
       <span class="sr-only"></span>
     </a>
@@ -18,78 +18,64 @@ export const createPagination = (pages, page) => {
   }
 
   if (page > 2) {
-    list += '<li class="page-item"><a id="first-page" class="page-link">1</a></li>';
+    list += '<li class="page-item"><a id="first-page" class="page-link event">1</a></li>';
     if (page > 3) {
-      list += '<li class="page-item"><a id="dots-after-first" class="page-link">...</a></li>';
+      list += '<li class="page-item page-link">...</a></li>';
     }
   }
-  if (page === 1) {
-    pageUp += 2;
-  } else if (page === 2) {
-    pageUp += 1;
-  }
-  if (page === pages) {
-    pageDown -= 2;
-  } else if (page === pages - 1) {
-    pageDown -= 1;
-  }
+  page === 1 ? (pageUp += 2) : page === 2 ? (pageUp += 1) : page;
+
+  page === pagesCount ? (pageDown -= 2) : page === pagesCount - 1 ? (pageDown -= 1) : page;
 
   for (let i = pageDown; i <= pageUp; i++) {
     if (i === 0) {
       i += 1;
     }
-    if (i > pages) {
+    if (i > pagesCount) {
       continue;
     }
-    active = page == i ? "active" : "no";
+    active = page == i ? "active" : "";
     list += '<li class="page-item ' + active + `"><a id="page-${i}" class="page-link">` + i + "</a></li>";
   }
 
-  if (page < pages - 1) {
-    if (page < pages - 2) {
-      list += '<li class="page-item""><a id="dots-before-last" class="page-link">...</a></li>';
+  if (page < pagesCount - 1) {
+    if (page < pagesCount - 2) {
+      list += '<li class="page-item page-link">...</li>';
     }
-    list += '<li class="page-item no"><a id="last-page" class="page-link">' + pages + "</a></li>";
+    list += '<li class="page-item"><a id="last-page" class="page-link event">' + pagesCount + "</a></li>";
   }
 
-  if (page < pages) {
+  if (page < pagesCount) {
     list += `<li class="page-item">
-    <a id="next" class="page-link" href="#" aria-label="Next">
+    <a id="next" class="page-link event" href="#" aria-label="Next">
       <span aria-hidden="true">&raquo;</span>
       <span class="sr-only"></span>
     </a>
   </li>`;
   }
-  list += "</ul>";
   document.querySelector(".pagination").innerHTML = list;
 
   addEvents(page);
   for (let i = pageDown; i <= pageUp; i++) {
     document.getElementById(`page-${i}`)?.addEventListener("click", () => {
-      createPagination(pagesCount, i);
+      createPagination(i);
     });
   }
-
-  fetchData(page, pages);
+  fetchData(page);
 };
 
 const addEvents = (page) => {
-  document.getElementById("previous")?.addEventListener("click", () => {
-    createPagination(pagesCount, page - 1);
-  });
-  document.getElementById("next")?.addEventListener("click", () => {
-    createPagination(pagesCount, page + 1);
-  });
-  document.getElementById("first-page")?.addEventListener("click", () => {
-    createPagination(pagesCount, 1);
-  });
-  document.getElementById("last-page")?.addEventListener("click", () => {
-    createPagination(pagesCount, pagesCount);
-  });
-  document.getElementById("dots-before-last")?.addEventListener("click", () => {
-    createPagination(pagesCount, page + 2);
-  });
-  document.getElementById("dots-after-first")?.addEventListener("click", () => {
-    createPagination(pagesCount, page - 2);
+  document.querySelectorAll(".event").forEach((el) => {
+    el.addEventListener("click", () => {
+      el.id === "previous"
+        ? createPagination(page - 1)
+        : el.id === "next"
+        ? createPagination(page + 1)
+        : el.id === "first-page"
+        ? createPagination(1)
+        : el.id === "last-page"
+        ? createPagination(pagesCount)
+        : "";
+    });
   });
 };

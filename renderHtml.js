@@ -23,15 +23,15 @@ export const renderHtml = (res) => {
     const smallImg = imgUrl + multimedia.find((img) => img.subtype === "thumbnail")?.url;
 
     element.innerHTML = `
-    <div class="card border-warning mb-3">
+    <div class="card  align-items-stretch border-warning mb-3">
       <div class="row g-0">
         <div class="col-md-2 mx-auto d-block">
         <img id="image" class="mt-1" src='${smallImg}' onerror="this.src='assets/images/newyorktimeslogo.png'" alt='${article.multimedia[0].type}'/>
         </div>
         <div class="col-md-8">
           <div class="card-body">
-          <a target="_blank" class="title-link" href="${web_url}">
-            <h5 class="card-title">${headline.main}</h5>
+          <a target="_blank" class="text-dark" href="${web_url}">
+            <h5>${headline.main}</h5>
           </a>
             <p class="card-text">${abstract}</p>
             <p class="card-text">
@@ -56,7 +56,7 @@ export const renderHtml = (res) => {
   });
 };
 
-const detailedInformation = (article, byline) => {
+const detailedInformation = (article) => {
   const imgUrl = "https://static01.nyt.com/";
   const largeImg = imgUrl + article.multimedia.find((x) => x.subtype === "jumbo")?.url;
 
@@ -64,7 +64,6 @@ const detailedInformation = (article, byline) => {
 
   const detailedElement = document.createElement("div");
   const detailedSection = document.getElementById(`article-${article.id}`);
-  detailedSection.appendChild(detailedElement);
 
   if (article.byline.original === null) {
     article.byline.original = "";
@@ -79,6 +78,8 @@ const detailedInformation = (article, byline) => {
     <a class="mb-2 fs-5" href="#">Go back to top</a>
   </div>`;
 
+  detailedSection.appendChild(detailedElement);
+
   setTimeout(() => {
     detailedElement.scrollIntoView(false);
   }, 500);
@@ -86,10 +87,8 @@ const detailedInformation = (article, byline) => {
 
 const clearDetails = () => {
   const detailedElements = document.querySelectorAll(".detailed");
-  const arr = [...detailedElements];
 
-  arr.forEach((el) => {
-    el.innerHTML = "";
+  [...detailedElements].forEach((el) => {
     el.parentElement.removeChild(el);
   });
 };

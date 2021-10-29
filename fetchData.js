@@ -1,32 +1,11 @@
 import { renderHtml } from "./renderHtml.js";
-import { createPagination } from "./pagination.js";
+import { displayRange, url } from "./main.js";
 
-const yourApiKey = "TqbXjcy6d60sNQ7GjZPsIguZVU91BrN5";
-const baseUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-const subject = "arts";
+export const fetchData = async (page) => {
+  const res = await fetch(`${url}&page=${page}`);
+  const results = await res.json();
 
-export const fetchData = (page) => {
-  const url = `${baseUrl}?q=${subject}&page=${page}&api-key=${yourApiKey}`;
-
-  fetch(url)
-    .then((response) => response.json())
-    .then((res) => {
-      let data = res.response.docs;
-      renderHtml(data);
-
-      const footer = document.getElementById("footer");
-      footer.innerHTML = res.copyright;
-    });
-
+  const data = results.response.docs;
+  renderHtml(data);
   displayRange(page);
 };
-
-export const displayRange = (page) => {
-  let firstItem = 10 * (page - 1) + 1;
-  let lastItem = page * 10;
-
-  const currentPage = document.querySelector(".current-page");
-  currentPage.innerHTML = `Displaying news ${firstItem} - ${lastItem} of 100`;
-};
-
-createPagination(10, 1);

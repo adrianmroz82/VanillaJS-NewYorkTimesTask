@@ -1,15 +1,14 @@
-export const renderHtml = (res) => {
-  const parentContainer = document.getElementById("news-cards");
-  parentContainer.innerHTML = "";
+let articles = [];
 
-  res.forEach((article, i) => {
+export const renderHtml = (res) => {
+  articles = res;
+  let cardsHtml = "";
+
+  articles.forEach((article, i) => {
     const { pub_date, multimedia, web_url, headline, abstract } = article;
 
     article.id = i + 1;
 
-    const element = document.createElement("div");
-
-    element.classList = "w-75";
     const date = new Date(pub_date);
     const options = {
       weekday: "long",
@@ -22,7 +21,7 @@ export const renderHtml = (res) => {
     const imgUrl = "https://static01.nyt.com/";
     const smallImg = imgUrl + multimedia.find((img) => img.subtype === "thumbnail")?.url;
 
-    element.innerHTML = `
+    cardsHtml += `
     <div class="card  align-items-stretch border-warning mb-3">
       <div class="row g-0">
         <div class="col-md-2 mx-auto d-block">
@@ -40,23 +39,21 @@ export const renderHtml = (res) => {
           </div>
         </div>
         <div class="col-md-2">
-        <button id='${article.id}' class="btn px-3 mt-1 mb-1 btn btn-warning">See more</button>
+        <button id='show-details-${article.id}' class="btn px-3 mt-1 mb-1 btn btn-warning">See more</button>
         </div>
       </div>
       <div id="article-${article.id}"></div> 
     </div>
    `;
-
-    parentContainer.appendChild(element);
-    const btn = document.getElementById(article.id);
-
-    btn.addEventListener("click", () => {
-      detailedInformation(article);
-    });
   });
+
+  const parentContainer = document.getElementById("news-cards");
+  parentContainer.innerHTML = cardsHtml;
 };
 
-const detailedInformation = (article) => {
+const detailedInformation = (id) => {
+  const article = articles.find((element) => element.id === id);
+
   const imgUrl = "https://static01.nyt.com/";
   const largeImg = imgUrl + article.multimedia.find((x) => x.subtype === "jumbo")?.url;
 
@@ -93,4 +90,4 @@ const clearDetails = () => {
   });
 };
 
-export { clearDetails };
+export { clearDetails, detailedInformation };

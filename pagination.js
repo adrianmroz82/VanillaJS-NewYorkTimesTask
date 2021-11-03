@@ -4,7 +4,6 @@ const pagesCount = 10;
 export const createPagination = (page) => {
   let list = "";
 
-  let active;
   let pageDown = page - 1;
   let pageUp = page + 1;
   if (page > 1) {
@@ -23,9 +22,9 @@ export const createPagination = (page) => {
       list += '<li class="page-item page-link">...</a></li>';
     }
   }
-  page === 1 ? (pageUp += 2) : page === 2 ? (pageUp += 1) : page;
+  pageUp += page === 1 ? 2 : page === 2 ? 1 : "";
 
-  page === pagesCount ? (pageDown -= 2) : page === pagesCount - 1 ? (pageDown -= 1) : page;
+  pageDown -= page === pagesCount ? 2 : page === pagesCount - 1 ? 1 : "";
 
   for (let i = pageDown; i <= pageUp; i++) {
     if (i === 0) {
@@ -34,8 +33,9 @@ export const createPagination = (page) => {
     if (i > pagesCount) {
       continue;
     }
-    active = page == i ? "active" : "";
-    list += '<li class="page-item ' + active + `"><a id="page-${i}" class="page-link">` + i + "</a></li>";
+    list += `<li class="page-item${
+      page == i && " active"
+    }"><a id="page-${i}" class="page-link">${i}</a></li>`;
   }
 
   if (page < pagesCount - 1) {
@@ -55,27 +55,5 @@ export const createPagination = (page) => {
   }
   document.querySelector(".pagination").innerHTML = list;
 
-  addEvents(page);
-  for (let i = pageDown; i <= pageUp; i++) {
-    document.getElementById(`page-${i}`)?.addEventListener("click", () => {
-      createPagination(i);
-    });
-  }
   fetchData(page);
-};
-
-const addEvents = (page) => {
-  document.querySelectorAll(".event").forEach((el) => {
-    el.addEventListener("click", () => {
-      el.id === "previous"
-        ? createPagination(page - 1)
-        : el.id === "next"
-        ? createPagination(page + 1)
-        : el.id === "first-page"
-        ? createPagination(1)
-        : el.id === "last-page"
-        ? createPagination(pagesCount)
-        : "";
-    });
-  });
 };

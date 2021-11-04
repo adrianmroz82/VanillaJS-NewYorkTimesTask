@@ -31,6 +31,11 @@
   margin-right: 1rem;
 }
 
+.arrows,
+.disabled {
+  pointer-events: none;
+}
+
 .pagination > li > a {
   background-color: white;
   color: #000;

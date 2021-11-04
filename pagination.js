@@ -9,17 +9,17 @@ export const createPagination = (page) => {
   if (page > 1) {
     list += `
     <li class="page-item">
-    <a id="previous" class="page-link event" href="#" aria-label="Previous">
-      <span aria-hidden="true">&laquo;</span>
+    <a id="previous" class="page-link" href="#" aria-label="Previous">
+      <span class="arrows" aria-hidden="true">&laquo;</span>
       <span class="sr-only"></span>
     </a>
   </li>`;
   }
 
   if (page > 2) {
-    list += '<li class="page-item"><a id="first-page" class="page-link event">1</a></li>';
+    list += '<li class="page-item"><a id="first-page" class="page-link">1</a></li>';
     if (page > 3) {
-      list += '<li class="page-item page-link">...</a></li>';
+      list += '<li class="page-item page-link disabled">...</a></li>';
     }
   }
   pageUp += page === 1 ? 2 : page === 2 ? 1 : "";
@@ -40,15 +40,15 @@ export const createPagination = (page) => {
 
   if (page < pagesCount - 1) {
     if (page < pagesCount - 2) {
-      list += '<li class="page-item page-link">...</li>';
+      list += '<li class="page-item page-link disabled">...</li>';
     }
-    list += '<li class="page-item"><a id="last-page" class="page-link event">' + pagesCount + "</a></li>";
+    list += '<li class="page-item"><a id="last-page" class="page-link">' + pagesCount + "</a></li>";
   }
 
   if (page < pagesCount) {
     list += `<li class="page-item">
-    <a id="next" class="page-link event" href="#" aria-label="Next">
-      <span aria-hidden="true">&raquo;</span>
+    <a id="next" class="page-link" href="#" aria-label="Next">
+      <span class="arrows" aria-hidden="true">&raquo;</span>
       <span class="sr-only"></span>
     </a>
   </li>`;
